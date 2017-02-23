@@ -2,13 +2,16 @@
 
 pub trait Zero {
     fn zero() -> Self;
+    fn is_zero(&self) -> bool;
 }
 
 macro_rules! trait_zero {
     ($t:ident) => (
         impl Zero for $t {
             #[inline(always)]
-            fn zero() -> $t { 0 }
+            fn zero() -> Self { 0 }
+            #[inline(always)]
+            fn is_zero(&self) -> bool { *self == 0 }
         }
     );
 }
@@ -17,7 +20,9 @@ macro_rules! trait_zero_float {
     ($t:ident) => (
         impl Zero for $t {
             #[inline(always)]
-            fn zero() -> $t { 0.0 }
+            fn zero() -> Self { 0.0 }
+            #[inline(always)]
+            fn is_zero(&self) -> bool { *self == 0.0 }
         }
     );
 }
@@ -41,4 +46,6 @@ trait_zero_float!(f64);
 impl Zero for bool {
     #[inline(always)]
     fn zero() -> bool { false }
+    #[inline(always)]
+    fn is_zero(&self) -> bool { *self }
 }
